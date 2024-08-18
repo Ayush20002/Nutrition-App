@@ -52,6 +52,7 @@ def main():
         calories. Provide the details in the following format:
         1. Item 1 - no of calories
         2. Item 2 - no of calories
+        Then calculate the total calories
         
         Finally, mention whether the food is healthy or not.
     
