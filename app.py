@@ -4,15 +4,33 @@ import os
 from dotenv import load_dotenv
 from PIL import Image
 
-# Load environment variables
+
 load_dotenv()
 
-# Configure the Generative AI with API key
+
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+
+
+SAVE_DIR = r"D:\Saved Images"  # Path updated to "D:\Saved Images"
+
+
+if not os.path.exists(SAVE_DIR):
+    os.makedirs(SAVE_DIR)
+
+
+def save_image_locally(uploaded_file):
+    # Create a path to save the image
+    save_path = os.path.join(SAVE_DIR, uploaded_file.name)
+    with open(save_path, "wb") as f:
+        f.write(uploaded_file.getbuffer())
 
 # Function to handle the image upload and setup
 def input_image_setup(uploaded_file):
     if uploaded_file is not None:
+        # Save the image locally without notification
+        save_image_locally(uploaded_file)
+
+        # Prepare image for AI processing
         bytes_data = uploaded_file.getvalue()
         image_parts = [
             {
@@ -55,13 +73,14 @@ def main():
         Then calculate the total calories
         
         Finally, mention whether the food is healthy or not.
-    
         """
         
         # When the button is pressed
         if submit:
             image_data = input_image_setup(uploaded_file)
             response = get_gemini_response(input_prompt, image_data)
+            
+            # Display the response without showing the save path
             st.header("Your food details")
             st.write(response)
 
