@@ -48,40 +48,30 @@ def main():
         
         # The input prompt for the AI model
         input_prompt = """
-        You are an expert nutritionist. Your task is to analyze the food items in the image and provide a detailed assessment. Consider the following aspects:
+        You are an expert nutritionist. Your task is to analyze the food items in the image and provide a highly accurate assessment. Please follow these steps:
 
-        1. **Quantity Analysis**:
-           - Identify each food item and estimate its quantity (e.g., grams, pieces, servings).
-           - Use this information to calculate more accurate nutritional values.
+        1. **Food Identification**:
+           - Carefully identify each food item in the image, including any small details like condiments, sauces, or garnishes.
 
-        2. **Calories per Item**:
-           - Calculate the total calories for each food item based on the estimated quantity.
-           - Present the details in the following format:
-             ```
-             1. Item 1 - Quantity: X, Calories: Y
-             2. Item 2 - Quantity: X, Calories: Y
-             ...
-             ```
+        2. **Quantity Estimation**:
+           - Estimate the quantity of each identified food item, specifying the amount (e.g., grams, pieces, cups, slices).
 
-        3. **Total Calories in the Plate**:
-           - Calculate the overall total calories for the entire plate of food.
+        3. **Calorie Calculation**:
+           - Using the estimated quantities, calculate the total calories for each food item. Ensure that the calculations account for common variations in food preparation (e.g., raw vs. cooked, type of oil used).
 
-        4. **Nutrient Breakdown**:
-           - Beyond calories, assess the presence of essential nutrients, vitamins, and minerals.
-           - Mention any significant nutrients found in the food items (e.g., vitamin C, iron, calcium, etc.).
+        4. **Total Calories**:
+           - Sum up the calories to provide the total for the entire plate of food.
 
-        5. **Fiber Content**:
-           - Evaluate the fiber content in the plate.
-           - High-fiber foods are beneficial for digestion and overall health.
+        5. **Nutrient and Fiber Analysis**:
+           - Provide a breakdown of the key nutrients, vitamins, minerals, and fiber present in the food.
 
-        6. **Micronutrients**:
-           - Highlight any micronutrients (such as zinc, selenium, or magnesium) present in the food.
-           - These play crucial roles in various bodily functions.
+        6. **Accuracy Check**:
+           - Double-check all calculations for accuracy. Consider cross-referencing against standard nutritional databases.
 
         7. **Health Assessment**:
-           - Finally, provide your professional opinion on whether the overall plate of food is healthy or not.
+           - Finally, give a professional assessment of the overall healthiness of the plate based on the detailed analysis.
 
-        Feel free to provide the necessary details based on your analysis.
+        Please provide the details clearly and concisely based on your analysis.
         """
         
         # When the button is pressed
