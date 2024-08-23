@@ -86,7 +86,7 @@ You are a professional nutritionist with advanced skills in computer vision and 
 
 Please ensure that the quantity estimates are as precise as possible by utilizing these advanced techniques, while maintaining a conservative approach to avoid overestimation. When in doubt, use the lower end of estimated ranges.
 
-Please ensure that the quantity estimates are as precise as possible by utilizing these advanced techniques.
+
 """
 
         
