@@ -48,16 +48,17 @@ def main():
         
         # The input prompt for the AI model
         input_prompt = """
-        You are an expert nutritionist. Your task is to analyze the food items in the image and provide a highly accurate assessment. Please follow these steps:
+        You are an expert nutritionist. Your task is to analyze the food items in the image and provide a highly accurate assessment. Please follow these steps carefully:
 
         1. **Food Identification**:
-           - Carefully identify each food item in the image, including any small details like condiments, sauces, or garnishes.
+           - Identify each food item in the image. Be precise and only include what is clearly visible.
 
         2. **Quantity Estimation**:
-           - Estimate the quantity of each identified food item, specifying the amount (e.g., grams, pieces, cups, slices).
+           - Estimate the quantity of each identified food item conservatively (e.g., grams, pieces, cups, slices). Ensure the estimates align closely with what is visible in the image.
 
         3. **Calorie Calculation**:
-           - Using the estimated quantities, calculate the total calories for each food item. Ensure that the calculations account for common variations in food preparation (e.g., raw vs. cooked, type of oil used).
+           - Calculate the total calories for each food item using standard nutritional databases, adjusting for the conservative quantity estimates.
+           - If unsure about the quantity or specific preparation method, lean towards lower calorie estimates to avoid overestimation.
 
         4. **Total Calories**:
            - Sum up the calories to provide the total for the entire plate of food.
@@ -66,12 +67,12 @@ def main():
            - Provide a breakdown of the key nutrients, vitamins, minerals, and fiber present in the food.
 
         6. **Accuracy Check**:
-           - Double-check all calculations for accuracy. Consider cross-referencing against standard nutritional databases.
+           - Double-check all calculations for accuracy. If there is any ambiguity in the food item or quantity, note it and use the lower end of calorie estimates.
 
         7. **Health Assessment**:
-           - Finally, give a professional assessment of the overall healthiness of the plate based on the detailed analysis.
+           - Finally, provide your professional assessment of the overall healthiness of the plate based on the detailed analysis.
 
-        Please provide the details clearly and concisely based on your analysis.
+        Please ensure the calorie estimates are as accurate as possible based on the visual information provided.
         """
         
         # When the button is pressed
