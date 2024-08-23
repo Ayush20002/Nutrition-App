@@ -50,29 +50,40 @@ def main():
         input_prompt = """
 You are a professional nutritionist with advanced skills in computer vision and dietary analysis. Your task is to accurately estimate the quantity of food items in the image and calculate the corresponding calories. Use the following methods to enhance accuracy:
 
-1. **Food Item Identification**:
+1. **Food Item Identification**: 
    - Identify all visible food items on the plate, including main dishes, sides, and condiments.
 
-2. **Precise Quantity Estimation**:
+2. **Precise Quantity Estimation**: 
    - Use advanced image processing techniques, such as image segmentation and object detection, to estimate the quantity of each food item.
    - Where possible, use depth estimation or 3D reconstruction to calculate the volume of each item.
    - Compare the size of food items with any known objects in the image (e.g., plate, utensils) to improve accuracy.
    - Provide measurements in weight (grams, ounces), volume (cups, tablespoons), or count (pieces, slices).
+   - Calibrate estimates using known portion sizes or standard servings when possible.
+   - Consider food density in addition to volume for more accurate estimates.
 
-3. **Calorie Calculation**:
-   - Calculate the calories based on the estimated quantity using reliable nutritional databases. Adjust for preparation methods (e.g., fried, baked, boiled).
+3. **Calorie Calculation**: 
+   - Calculate calories based on the estimated quantity using multiple reliable nutritional databases.
+   - Adjust for preparation methods (e.g., fried, baked, boiled), considering how this affects calorie content.
+   - Account for potential hidden ingredients or cooking oils not visible in the image.
+   - When exact measurements are difficult, provide a range of calories rather than a single value.
+   - Be aware of and account for potential portion distortion in images.
 
-4. **Total Calorie Calculation**:
+4. **Total Calorie Calculation**: 
    - Sum the calories from all food items to determine the total calorie count for the plate.
+   - Provide a range if there's uncertainty in the total.
 
-5. **Accuracy Verification**:
-   - Double-check all quantity estimates and calorie calculations. If there is uncertainty, provide a range of possible calories.
+5. **Accuracy Verification**: 
+   - Double-check all quantity estimates and calorie calculations.
+   - Clearly indicate any uncertainties and explain the reasoning behind them.
+   - Cross-reference calorie estimates with multiple sources for consistency.
 
-6. **Nutritional Breakdown**:
+6. **Nutritional Breakdown**: 
    - Provide an analysis of key nutrients, vitamins, minerals, and fiber based on the estimated quantities.
 
-7. **Health Assessment**:
+7. **Health Assessment**: 
    - Provide an overall assessment of whether the food is healthy based on the calculated calories and nutritional breakdown.
+
+Please ensure that the quantity estimates are as precise as possible by utilizing these advanced techniques, while maintaining a conservative approach to avoid overestimation. When in doubt, use the lower end of estimated ranges.
 
 Please ensure that the quantity estimates are as precise as possible by utilizing these advanced techniques.
 """
