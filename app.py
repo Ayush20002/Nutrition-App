@@ -11,8 +11,16 @@ genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 # Function to get the response from the generative AI model
 def get_gemini_response(input_prompt, health_data):
+    # Format health data into a string for the AI model
+    health_data_str = f"""
+    Body Temperature: {health_data['temperature']} °C
+    Blood Pressure: {health_data['blood_pressure_systolic']}/{health_data['blood_pressure_diastolic']} mmHg
+    Respiratory Rate: {health_data['respiratory_rate']} breaths per minute
+    ECG Readings: {health_data['ecg_reading']}
+    """
+    
     model = genai.GenerativeModel('gemini-1.5-pro-exp-0801')
-    response = model.generate_content([input_prompt, health_data])
+    response = model.generate_content([input_prompt, health_data_str])
     return response.text
 
 # Streamlit UI setup
