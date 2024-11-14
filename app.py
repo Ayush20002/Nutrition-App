@@ -21,15 +21,6 @@ def main():
     st.set_page_config(page_title="Health Assessment Tool")
     st.header("Health Assessment Tool")
 
-    # Display reference table for healthy parameters
-    st.subheader("Reference Table for Healthy Ranges")
-    data = {
-        "Health Parameter": ["BMI (kg/m²)", "Systolic BP (mm Hg)", "Diastolic BP (mm Hg)", "Heart Rate (bpm)"],
-        "Healthy Range": ["18.5 - 24.9", "90 - 120", "60 - 80", "60 - 100"]
-    }
-    reference_table = pd.DataFrame(data)
-    st.table(reference_table)
-
     # Collect user inputs for health metrics
     st.subheader("Enter Your Health Data")
     age = st.number_input("Enter your age", min_value=0, max_value=120, step=1)
@@ -40,11 +31,35 @@ def main():
     weight = st.number_input("Enter your weight (kg)", min_value=0.0, format="%.1f")
     height = st.number_input("Enter your height (cm)", min_value=0.0, format="%.1f")
 
+    # Calculate BMI
+    if height > 0:
+        bmi = weight / ((height / 100) ** 2)
+    else:
+        bmi = None
+
     # Button to assess health status
     submit = st.button("Assess Health")
 
-    # Prepare the input prompt for the API
-    input_prompt = f"""
+    # Display the comparison table after input
+    if submit:
+        # Create a DataFrame for healthy ranges and user's values
+        data = {
+            "Health Parameter": ["BMI (kg/m²)", "Systolic BP (mm Hg)", "Diastolic BP (mm Hg)", "Heart Rate (bpm)"],
+            "Healthy Range": ["18.5 - 24.9", "90 - 120", "60 - 80", "60 - 100"],
+            "Your Values": [
+                f"{bmi:.1f}" if bmi is not None else "N/A",
+                f"{systolic_bp}",
+                f"{diastolic_bp}",
+                f"{heart_rate}"
+            ]
+        }
+        comparison_table = pd.DataFrame(data)
+        
+        st.subheader("Comparison with Healthy Ranges")
+        st.table(comparison_table)
+
+        # Prepare the input prompt for the API
+        input_prompt = f"""
 You are a professional healthcare advisor. Based on the provided health parameters, categorize the user's health status into risk levels and provide a recommendation.
 
 User's Health Parameters:
@@ -55,6 +70,7 @@ User's Health Parameters:
 - Heart Rate: {heart_rate} bpm
 - Weight: {weight} kg
 - Height: {height} cm
+- BMI: {bmi:.1f if bmi is not None else "N/A"}
 
 ### Health Status Categorization
 Define the user's health status risk level based on the following criteria:
@@ -85,8 +101,6 @@ Recommendation: "Your blood pressure and BMI are slightly elevated. Consider reg
 Please analyze and provide a response following this format.
 """
 
-    # When the button is pressed
-    if submit:
         # Send the prompt to the Gemini model and get the response
         response = get_gemini_response(input_prompt)
         
