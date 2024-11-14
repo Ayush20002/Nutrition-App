@@ -1,3 +1,22 @@
+import streamlit as st
+import google.generativeai as genai
+import pandas as pd
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+# Configure the Generative AI with API key
+genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+
+# Function to get the response from the generative AI model
+def get_gemini_response(input_prompt):
+    model = genai.GenerativeModel('gemini-1.5-pro-exp-0801')
+    response = model.generate_content([input_prompt])
+    return response.text
+
+# Streamlit UI setup
 def main():
     st.set_page_config(page_title="Health Assessment Tool")
     st.header("Health Assessment Tool")
@@ -88,3 +107,7 @@ Please analyze and provide a response following this format.
         # Display the API response as the health assessment
         st.header("Health Assessment Result")
         st.write(response)
+
+# Run the Streamlit app
+if __name__ == "__main__":
+    main()
