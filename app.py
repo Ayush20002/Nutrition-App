@@ -93,13 +93,8 @@ Define the user's health status risk level based on the following criteria:
 Please categorize the user's health status as follows:
 - **Risk Level (1: Low, 2: Moderate, 3: High)**: Provide a risk level based on an analysis of the user's BMI, blood pressure, and heart rate.
 - **Recommendation**: Provide brief advice based on the categorized risk level.
-
-### Example Response
-Risk Level: 2 (Moderate)
-Recommendation: "Your blood pressure and BMI are slightly elevated. Consider regular monitoring and lifestyle changes. Consultation with a healthcare provider is recommended for personalized advice."
-
-Please analyze and provide a response following this format.
 """
+
 
         # Send the prompt to the Gemini model and get the response
         response = get_gemini_response(input_prompt)
