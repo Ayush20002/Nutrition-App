@@ -3,6 +3,7 @@ import google.generativeai as genai
 import pandas as pd
 import os
 from dotenv import load_dotenv
+from PIL import Image
 
 # Load environment variables
 load_dotenv()
@@ -21,7 +22,8 @@ def main():
     st.set_page_config(page_title="Health Assessment Tool")
 
     # Add a banner image at the top of the page
-    st.image("health_banner.jpg", use_column_width=True, caption="Your Health, Our Priority")
+    banner_image = "health_banner.jpg"  # Replace with your image file path
+    st.image(banner_image, use_column_width=True, caption="Your Health, Our Priority")
 
     st.header("Health Assessment Tool")
 
