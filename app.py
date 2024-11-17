@@ -12,6 +12,7 @@ genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 # Function to get the response from the generative AI model
 def get_gemini_response(input_prompt):
+    # This function interacts with the Gemini model and returns the response text
     model = genai.GenerativeModel('gemini-1.5-pro-exp-0801')
     response = model.generate_content([input_prompt])
     return response.text
@@ -32,15 +33,13 @@ def main():
     height = st.number_input("Enter your height (cm)", min_value=0.0, format="%.1f")
 
     # Calculate BMI
+    bmi = None
     if height > 0:
         bmi = weight / ((height / 100) ** 2)
-    else:
-        bmi = None
 
     # Button to assess health status
     submit = st.button("Assess Health")
 
-    # Display the comparison table after input
     if submit:
         # Create a DataFrame for healthy ranges and user's values
         data = {
@@ -54,46 +53,45 @@ def main():
             ]
         }
         comparison_table = pd.DataFrame(data)
-
         st.subheader("Comparison with Healthy Ranges")
         st.table(comparison_table)
 
         # Prepare the input prompt for the API
         input_prompt = f"""
-        You are a professional healthcare advisor. Based on the provided health parameters, categorize the user's health status into risk levels and provide a recommendation.
+You are a professional healthcare advisor. Based on the provided health parameters, categorize the user's health status into risk levels and provide a recommendation.
 
-        User's Health Parameters:
-        - Age: {age}
-        - Sex: {sex}
-        - Systolic Blood Pressure: {systolic_bp} mm Hg
-        - Diastolic Blood Pressure: {diastolic_bp} mm Hg
-        - Heart Rate: {heart_rate} bpm
-        - Weight: {weight} kg
-        - Height: {height} cm
-        - BMI: {f"{bmi:.1f}" if bmi is not None else "N/A"}
+User's Health Parameters:
+- Age: {age}
+- Sex: {sex}
+- Systolic Blood Pressure: {systolic_bp} mm Hg
+- Diastolic Blood Pressure: {diastolic_bp} mm Hg
+- Heart Rate: {heart_rate} bpm
+- Weight: {weight} kg
+- Height: {height} cm
+- BMI: {f"{bmi:.1f}" if bmi is not None else "N/A"}
 
-        ### Health Status Categorization
-        Define the user's health status risk level based on the following criteria:
-        1. **BMI (Body Mass Index)**:
-            - Low risk: 18.5 - 24.9
-            - Moderate risk: 25 - 29.9
-            - High risk: below 18.5 (underweight) or 30 and above (overweight/obese)
+### Health Status Categorization
+Define the user's health status risk level based on the following criteria:
+1. **BMI (Body Mass Index)**:
+   - Low risk: 18.5 - 24.9
+   - Moderate risk: 25 - 29.9
+   - High risk: below 18.5 (underweight) or 30 and above (overweight/obese)
 
-        2. **Blood Pressure**:
-            - Low risk: Systolic (90-120 mm Hg) and Diastolic (60-80 mm Hg)
-            - Moderate risk: Systolic (121-139 mm Hg) or Diastolic (81-89 mm Hg)
-            - High risk: Systolic (140 mm Hg or higher) or Diastolic (90 mm Hg or higher)
+2. **Blood Pressure**:
+   - Low risk: Systolic (90-120 mm Hg) and Diastolic (60-80 mm Hg)
+   - Moderate risk: Systolic (121-139 mm Hg) or Diastolic (81-89 mm Hg)
+   - High risk: Systolic (140 mm Hg or higher) or Diastolic (90 mm Hg or higher)
 
-        3. **Heart Rate**:
-            - Low risk: Resting heart rate of 60-100 bpm
-            - Moderate risk: Resting heart rate of 101-110 bpm
-            - High risk: Resting heart rate above 110 bpm
+3. **Heart Rate**:
+   - Low risk: Resting heart rate of 60-100 bpm
+   - Moderate risk: Resting heart rate of 101-110 bpm
+   - High risk: Resting heart rate above 110 bpm
 
-        ### Response Format
-        Please categorize the user's health status as follows:
-        - **Risk Level (1: Low, 2: Moderate, 3: High)**: Provide a risk level based on an analysis of the user's BMI, blood pressure, and heart rate.
-        - **Recommendation**: Provide brief advice based on the categorized risk level.
-        """
+### Response Format
+Please categorize the user's health status as follows:
+- **Risk Level (1: Low, 2: Moderate, 3: High)**: Provide a risk level based on an analysis of the user's BMI, blood pressure, and heart rate.
+- **Recommendation**: Provide brief advice based on the categorized risk level.
+"""
 
         # Send the prompt to the Gemini model and get the response
         response = get_gemini_response(input_prompt)
