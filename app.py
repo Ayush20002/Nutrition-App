@@ -103,3 +103,5 @@ Please categorize the user's health status as follows:
 # Run the Streamlit app
 if __name__ == "__main__":
     main()
+
+    main()
