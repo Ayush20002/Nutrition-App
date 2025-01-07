@@ -3,6 +3,9 @@ import google.generativeai as genai
 import os
 from dotenv import load_dotenv
 from PIL import Image
+from streamlit_extras.colored_header import colored_header
+from streamlit_extras.add_vertical_space import add_vertical_space
+from streamlit_extras.stoggle import stoggle
 
 # Load environment variables
 load_dotenv()
@@ -32,19 +35,42 @@ def get_gemini_response(input_prompt, image):
 
 # Streamlit UI setup
 def main():
-    st.set_page_config(page_title="Calorie Calculator")
-    st.header("Calorie Calculator")
+    # Page configuration
+    st.set_page_config(
+        page_title="Calorie Calculator",
+        page_icon="🍴",
+        layout="wide"
+    )
     
-    # File uploader for the image
-    uploaded_file = st.file_uploader("Choose an image", type=["jpg", "jpeg", "png"])
+    # Apply a header
+    colored_header(
+        label="Calorie Calculator",
+        description="Estimate the calories in your meal using AI.",
+        color_name="blue-70",
+    )
+    add_vertical_space(2)
     
-    # Display the uploaded image
+    # Sidebar
+    with st.sidebar:
+        st.markdown("## Navigation")
+        st.markdown("Use the sidebar to upload your food image!")
+        stoggle("Need Help?", "Upload an image and hit the 'Tell me total calories' button!")
+
+    # Upload image
+    uploaded_file = st.file_uploader("Upload an image (JPG, JPEG, PNG)", type=["jpg", "jpeg", "png"])
+
+    # Display uploaded image and process
     if uploaded_file is not None:
         image = Image.open(uploaded_file)
         st.image(image, caption="Uploaded Image", use_column_width=True)
-        
-        # Prompt and button for submitting the image
-        submit = st.button("Tell me total calories")
+
+        st.markdown(
+            "<div style='text-align: center; margin: 20px;'>"
+            "<button style='background-color: #4CAF50; color: white; border: none; "
+            "padding: 10px 20px; border-radius: 5px;'>Tell me total calories</button>"
+            "</div>",
+            unsafe_allow_html=True
+        )
         
         # The input prompt for the AI model
         input_prompt = """
@@ -94,11 +120,13 @@ Please ensure that the quantity estimates are as precise as possible by utilizin
 
         
         # When the button is pressed
-        if submit:
-            image_data = input_image_setup(uploaded_file)
-            response = get_gemini_response(input_prompt, image_data)
-            st.header("Your food details")
-            st.write(response)
+         if st.button("Tell me total calories"):
+            with st.spinner("Processing your request..."):
+                image_data = input_image_setup(uploaded_file)
+                response = get_gemini_response(input_prompt, image_data)
+                st.success("Analysis Complete!")
+                st.header("Your Food Details")
+                st.write(response)
 
 # Run the Streamlit app
 if __name__ == "__main__":
