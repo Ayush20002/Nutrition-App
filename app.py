@@ -64,17 +64,9 @@ def main():
         image = Image.open(uploaded_file)
         st.image(image, caption="Uploaded Image", use_column_width=True)
 
-        st.markdown(
-            "<div style='text-align: center; margin: 20px;'>"
-            "<button style='background-color: #4CAF50; color: white; border: none; "
-            "padding: 10px 20px; border-radius: 5px;'>Tell me total calories</button>"
-            "</div>",
-            unsafe_allow_html=True
-        )
-        
         # The input prompt for the AI model
         input_prompt = """
-You are a professional nutritionist with advanced skills in computer vision and dietary analysis. Your task is to accurately estimate the quantity of food items in the image and calculate the corresponding calories. Use the following methods to enhance accuracy:
+        You are a professional nutritionist with advanced skills in computer vision and dietary analysis. Your task is to accurately estimate the quantity of food items in the image and calculate the corresponding calories. Use advanced methods such as image segmentation, object detection, and 3D reconstruction to ensure accuracy.You are a professional nutritionist with advanced skills in computer vision and dietary analysis. Your task is to accurately estimate the quantity of food items in the image and calculate the corresponding calories. Use the following methods to enhance accuracy:
 
 1. **Food Item Identification**: 
    - Identify all visible food items on the plate, including main dishes, sides, and condiments.
@@ -114,13 +106,10 @@ You are a professional nutritionist with advanced skills in computer vision and 
    - Provide an overall assessment of whether the food is healthy based on the calculated calories and nutritional breakdown.
 
 Please ensure that the quantity estimates are as precise as possible by utilizing these advanced techniques, while maintaining a conservative approach to avoid overestimation. When in doubt, use the lower end of estimated ranges.
+        """
 
-
-"""
-
-        
         # When the button is pressed
-         if st.button("Tell me total calories"):
+        if st.button("Tell me total calories"):
             with st.spinner("Processing your request..."):
                 image_data = input_image_setup(uploaded_file)
                 response = get_gemini_response(input_prompt, image_data)
