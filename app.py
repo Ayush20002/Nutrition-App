@@ -3,9 +3,6 @@ import google.generativeai as genai
 import os
 from dotenv import load_dotenv
 from PIL import Image
-from streamlit_extras.colored_header import colored_header
-from streamlit_extras.add_vertical_space import add_vertical_space
-from streamlit_extras.stoggle import stoggle
 
 # Load environment variables
 load_dotenv()
@@ -35,38 +32,23 @@ def get_gemini_response(input_prompt, image):
 
 # Streamlit UI setup
 def main():
-    # Page configuration
-    st.set_page_config(
-        page_title="Calorie Calculator",
-        page_icon="🍴",
-        layout="wide"
-    )
+    st.set_page_config(page_title="Calorie Calculator")
+    st.header("Calorie Calculator")
     
-    # Apply a header
-    colored_header(
-        label="Calorie Calculator",
-        description="Estimate the calories in your meal using AI.",
-        color_name="blue-70",
-    )
-    add_vertical_space(2)
+    # File uploader for the image
+    uploaded_file = st.file_uploader("Choose an image", type=["jpg", "jpeg", "png"])
     
-    # Sidebar
-    with st.sidebar:
-        st.markdown("## Navigation")
-        st.markdown("Use the sidebar to upload your food image!")
-        stoggle("Need Help?", "Upload an image and hit the 'Tell me total calories' button!")
-
-    # Upload image
-    uploaded_file = st.file_uploader("Upload an image (JPG, JPEG, PNG)", type=["jpg", "jpeg", "png"])
-
-    # Display uploaded image and process
+    # Display the uploaded image
     if uploaded_file is not None:
         image = Image.open(uploaded_file)
-        st.image(image, caption="Uploaded Image", use_container_width=True)
-
+        st.image(image, caption="Uploaded Image", use_column_width=True)
+        
+        # Prompt and button for submitting the image
+        submit = st.button("Tell me total calories")
+        
         # The input prompt for the AI model
         input_prompt = """
-        You are a professional nutritionist with advanced skills in computer vision and dietary analysis. Your task is to accurately estimate the quantity of food items in the image and calculate the corresponding calories. Use advanced methods such as image segmentation, object detection, and 3D reconstruction to ensure accuracy.You are a professional nutritionist with advanced skills in computer vision and dietary analysis. Your task is to accurately estimate the quantity of food items in the image and calculate the corresponding calories. Use the following methods to enhance accuracy:
+You are a professional nutritionist with advanced skills in computer vision and dietary analysis. Your task is to accurately estimate the quantity of food items in the image and calculate the corresponding calories. Use the following methods to enhance accuracy:
 
 1. **Food Item Identification**: 
    - Identify all visible food items on the plate, including main dishes, sides, and condiments.
@@ -106,16 +88,17 @@ def main():
    - Provide an overall assessment of whether the food is healthy based on the calculated calories and nutritional breakdown.
 
 Please ensure that the quantity estimates are as precise as possible by utilizing these advanced techniques, while maintaining a conservative approach to avoid overestimation. When in doubt, use the lower end of estimated ranges.
-        """
 
+
+"""
+
+        
         # When the button is pressed
-        if st.button("Tell me total calories"):
-            with st.spinner("Processing your request..."):
-                image_data = input_image_setup(uploaded_file)
-                response = get_gemini_response(input_prompt, image_data)
-                st.success("Analysis Complete!")
-                st.header("Your Food Details")
-                st.write(response)
+        if submit:
+            image_data = input_image_setup(uploaded_file)
+            response = get_gemini_response(input_prompt, image_data)
+            st.header("Your food details")
+            st.write(response)
 
 # Run the Streamlit app
 if __name__ == "__main__":
