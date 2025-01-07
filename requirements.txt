@@ -1,5 +1,5 @@
-langchain_google_genai
 streamlit
+streamlit-extras
 python-dotenv
 pdf2image
 faiss-cpu
@@ -7,3 +7,4 @@ google-generativeai
 langchain
 PyPDF2
 chromadb
+Pillow
