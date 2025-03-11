@@ -26,7 +26,7 @@ def input_image_setup(uploaded_file):
 
 # Function to get the response from the generative AI model
 def get_gemini_response(input_prompt, image):
-    model = genai.GenerativeModel('gemini-1.5-pro-exp-0801')
+    model = genai.GenerativeModel('gemini-2.0-flash')
     response = model.generate_content([input_prompt, image[0]])
     return response.text
 
